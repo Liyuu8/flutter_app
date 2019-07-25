@@ -27,4 +27,12 @@ void main() {
     expect(find.text('0'), findsNothing);
     expect(find.text('1'), findsOneWidget);
   });
+
+  testWidgets('flutter_app sample test!', (WidgetTester tester) async {
+    await tester.pumpWidget(new MyApp());
+    await tester.pump();
+
+    expect(find.text('0'), findsOneWidget);
+    expect(find.byIcon(Icons.add), findsOneWidget);
+  });
 }

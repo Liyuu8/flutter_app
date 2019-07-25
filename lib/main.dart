@@ -11,6 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       title: 'Flutter Demo',
+      theme: new ThemeData(
+        primarySwatch: Colors.orange,
+      ),
       home: new MyHomePage(
         title: this.title,
         message: this.message,
@@ -38,14 +41,36 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+// データ用クラス
+class Data {
+  int _price;
+  String _name;
+
+  Data(this._name, this._price): super();
+
+  @override
+  String toString() {
+    return _name + ': ' + _price.toString() + '円';
+  }
+}
+
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   String _message;
+
+  // サンプルデータ
+  static final _data = [
+    Data('Apple', 200),
+    Data('Orange', 150),
+    Data('Peach', 300)
+  ];
+  Data _item;
 
   @override
   void initState() {
     super.initState();
     _message = widget.message;
+    _item = _data[0];
   }
 
   void _incrementCounter() {
@@ -57,6 +82,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
       _message = widget.message + ' + ' + _counter.toString();
+    });
+  }
+
+  void _setData() {
+    setState(() {
+      _item = (_data..shuffle()).first;
     });
   }
 
@@ -102,8 +133,12 @@ class _MyHomePageState extends State<MyHomePage> {
               style: Theme.of(context).textTheme.display1,
             ),
             Text(
-              '\n' + this._message,
+              '\n $_message',
               style: TextStyle(fontSize: 28.0),
+            ),
+            Text(
+              '\n $_item',
+              style: TextStyle(fontSize: 26.0),
             )
           ],
         ),
