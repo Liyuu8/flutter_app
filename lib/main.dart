@@ -28,72 +28,97 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  var _stackData = <Widget>[
-        new Container(
-          child:
-          new Text(
-            "one",
-            style: new TextStyle(fontSize:32.0,
-                color: const Color(0xFF000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto"),
-          ),
+  var _gridData = <Widget>[
+    Container(
+      color: Colors.red,
+      child:
+        Text(
+        "one",
+        style: new TextStyle(fontSize:32.0,
+        color: const Color(0xFF000000),
+        fontWeight: FontWeight.w400,
+        fontFamily: "Roboto"),
+      ),
+    ),
+    Container(
+      color: Colors.blue,
+      child:
+      Text(
+        "two",
+        style: new TextStyle(fontSize:32.0,
+            color: const Color(0xFF000000),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto"),
+      ),
+    ),
+    Container(
+      color: Colors.yellow,
+      child:
+      Text(
+        "three",
+        style: new TextStyle(fontSize:32.0,
+            color: const Color(0xFF000000),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto"),
+      ),
+    ),
+    Container(
+      color: Colors.green,
+      child:
+      Text(
+        "four",
+        style: new TextStyle(fontSize:32.0,
+            color: const Color(0xFFFFFFFF),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto"),
+      ),
+    ),
+    Container(
+      color: Colors.orange,
+      child:
+      Text(
+        "five",
+        style: new TextStyle(fontSize:32.0,
+            color: const Color(0xFFFFFFFF),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto"),
+      ),
+    ),
+    Container(
+      color: Colors.purple,
+      child:
+      Text(
+        "six",
+        style: new TextStyle(fontSize:32.0,
+            color: const Color(0xFFFFFFFF),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto"),
+      ),
+    ),
 
-          color: Colors.red,
-          padding: const EdgeInsets.all(0.0),
-          alignment: Alignment.center,
-        ),
-        new Container(
-          child:
-          new Text(
-            "two",
-            style: new TextStyle(fontSize:32.0,
-                color: const Color(0xFFFFFFFF),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto"),
-          ),
+  ];
 
-          color: Colors.green,
-          padding: const EdgeInsets.all(0.0),
-          alignment: Alignment.center,
-        ),
-        new Container(
-          child:
-          new Text(
-            "three",
-            style: new TextStyle(fontSize:32.0,
-                color: const Color(0xFF000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto"),
-          ),
-
-          color: Colors.yellow,
-          padding: const EdgeInsets.all(0.0),
-          alignment: Alignment.center,
-        )
-      ];
-
-  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
       body:
-        Stack(
-          children: _stackData,
-        )
-      ,
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.android),
-          onPressed: fabPressed),
+      new Container(
+        child:
+        new GridView.count(
+            crossAxisCount: 2,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            padding: const EdgeInsets.all(10),
+            children: _gridData
+
+        ),
+
+        padding: const EdgeInsets.all(0.0),
+        alignment: Alignment.center,
+      ),
 
     );
-  }
-
-  void fabPressed() {
-    setState(() {
-      _stackData.insert(0, _stackData.removeLast());
-    });
   }
 }
