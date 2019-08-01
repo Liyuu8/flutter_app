@@ -32,7 +32,7 @@ class _MyHomePageState extends State<MyHomePage> {
         new Container(
           child:
           new Text(
-            "Roboto",
+            "one",
             style: new TextStyle(fontSize:32.0,
                 color: const Color(0xFF000000),
                 fontWeight: FontWeight.w400,
@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
         new Container(
           child:
           new Text(
-            "Roboto",
+            "two",
             style: new TextStyle(fontSize:32.0,
                 color: const Color(0xFFFFFFFF),
                 fontWeight: FontWeight.w400,
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
         new Container(
           child:
           new Text(
-            "Roboto",
+            "three",
             style: new TextStyle(fontSize:32.0,
                 color: const Color(0xFF000000),
                 fontWeight: FontWeight.w400,
