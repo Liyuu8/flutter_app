@@ -57,18 +57,26 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
             ),
+            
+            Padding(
+              padding: EdgeInsets.all(25.0),
+            ),
 
             new Expanded(
               child:
               new Container(
                 color: Color.fromARGB(255, 255, 125, 0),
                 child:
-                new Text(
+                new Padding(
+                  padding: EdgeInsets.all(25.0),
+                  child:
+                  new Text(
                   "Second item",
                   style: new TextStyle(fontSize:32.0,
-                      color: const Color(0xFF000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto"),
+                  color: const Color(0xFF000000),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto"),
+                  ),
                 ),
 
                 padding: const EdgeInsets.all(0.0),
@@ -79,26 +87,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
             new Expanded(
               child:
-              new Container(
-                color: Color.fromARGB(255, 255, 0, 0),
+              new Padding(
+                padding: EdgeInsets.all(25.0),
                 child:
-                new Text(
-                  "Three item",
-                  style: new TextStyle(fontSize:32.0,
-                      color: const Color(0xFF000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto"),
+                new Container(
+                  color: Color.fromARGB(255, 255, 0, 0),
+                  child:
+                  new Text(
+                    "Three item",
+                    style: new TextStyle(fontSize:32.0,
+                        color: const Color(0xFF000000),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto"),
+                  ),
+
+                  padding: const EdgeInsets.all(0.0),
+                  alignment: Alignment.center,
                 ),
-
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
               ),
-
-            )
+            ),
           ]
-
       ),
-
     );
   }
 }
