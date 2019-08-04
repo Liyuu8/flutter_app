@@ -34,49 +34,45 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text('App Name'),
       ),
       body:
-      new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
+      new Center(
+        child:
+        new Card(
+          key: null,
+          margin: EdgeInsets.all(50.0),
+          child:
+          new Padding(
+            padding: EdgeInsets.all(10.0),
+            child:
+            new Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Text(
+                    "Hello!",
+                    style: new TextStyle(fontSize:32.0,
+                        color: const Color(0xFF000000),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto"),
+                  ),
 
-            new FractionallySizedBox(
-              child:
-              new Container(
-                color: Colors.yellow,
-                child:
-                new Text(
-                  "First item",
-                  style: new TextStyle(fontSize:32.0,
-                      color: const Color(0xFF000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto"),
-                ),
+                  new Padding(
+                    padding: const EdgeInsets.all(12.0),
+                  ),
 
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
-              ),
+                  new Text(
+                    "This is Card Layout." * 5,
+                    style: new TextStyle(fontSize:24.0,
+                        color: const Color(0xFF0000FF),
+                        fontWeight: FontWeight.w200,
+                        fontFamily: "Roboto"),
+                  )
+                ]
 
-              widthFactor: 0.25,
             ),
+          ),
 
-            new FractionalTranslation(
-              child:
-              new Container(
-                color: Colors.orange,
-                child:
-                new Text(
-                  "Second item",
-                  style: new TextStyle(fontSize:32.0,
-                      color: const Color(0xFF000000),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto"),
-                ),
-
-              ),
-
-              translation: new Offset(1.00, 1.00),
-            ),
-
-          ]
+        ),
 
       ),
 
