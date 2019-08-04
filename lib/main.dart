@@ -37,9 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
       new Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new SizedBox(
-              width: 200.0,
-              height: 100.0,
+
+            new FractionallySizedBox(
               child:
               new Container(
                 color: Colors.yellow,
@@ -56,14 +55,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 alignment: Alignment.center,
               ),
 
+              widthFactor: 0.25,
             ),
 
-            new SizedBox(
-              width: 200.0,
-              height: 300.0,
+            new FractionalTranslation(
               child:
               new Container(
-                color: Colors.red,
+                color: Colors.orange,
                 child:
                 new Text(
                   "Second item",
@@ -73,11 +71,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontFamily: "Roboto"),
                 ),
 
-                padding: const EdgeInsets.all(0.0),
-                alignment: Alignment.center,
               ),
 
-            )
+              translation: new Offset(1.00, 1.00),
+            ),
+
           ]
 
       ),
