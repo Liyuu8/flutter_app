@@ -27,96 +27,55 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-  var _gridData = <Widget>[
-    Container(
-      color: Colors.red,
-      child:
-        Text(
-        "one",
-        style: new TextStyle(fontSize:32.0,
-        color: const Color(0xFF000000),
-        fontWeight: FontWeight.w400,
-        fontFamily: "Roboto"),
-      ),
-    ),
-    Container(
-      color: Colors.blue,
-      child:
-      Text(
-        "two",
-        style: new TextStyle(fontSize:32.0,
-            color: const Color(0xFF000000),
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto"),
-      ),
-    ),
-    Container(
-      color: Colors.yellow,
-      child:
-      Text(
-        "three",
-        style: new TextStyle(fontSize:32.0,
-            color: const Color(0xFF000000),
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto"),
-      ),
-    ),
-    Container(
-      color: Colors.green,
-      child:
-      Text(
-        "four",
-        style: new TextStyle(fontSize:32.0,
-            color: const Color(0xFFFFFFFF),
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto"),
-      ),
-    ),
-    Container(
-      color: Colors.orange,
-      child:
-      Text(
-        "five",
-        style: new TextStyle(fontSize:32.0,
-            color: const Color(0xFFFFFFFF),
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto"),
-      ),
-    ),
-    Container(
-      color: Colors.purple,
-      child:
-      Text(
-        "six",
-        style: new TextStyle(fontSize:32.0,
-            color: const Color(0xFFFFFFFF),
-            fontWeight: FontWeight.w400,
-            fontFamily: "Roboto"),
-      ),
-    ),
-
-  ];
-
+  @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
       body:
-      new Container(
-        child:
-        new GridView.count(
-            crossAxisCount: 2,
-            mainAxisSpacing: 10.0,
-            crossAxisSpacing: 10.0,
-            padding: const EdgeInsets.all(10),
-            children: _gridData
+      new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            new Align(
+              alignment: Alignment.centerLeft,
+              child:
+                new Text(
+                  "Left",
+                  style: new TextStyle(fontSize:32.0,
+                      color: const Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto"),
+                )
+            ),
 
-        ),
+            new Align(
+                alignment: Alignment.center,
+                child:
+                new Text(
+                  "Center",
+                  style: new TextStyle(fontSize:32.0,
+                      color: const Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto"),
+                )
+            ),
 
-        padding: const EdgeInsets.all(0.0),
-        alignment: Alignment.center,
+            new Align(
+                alignment: Alignment.centerRight,
+                child:
+                new Text(
+                  "Right",
+                  style: new TextStyle(fontSize:32.0,
+                      color: const Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto"),
+                )
+            )
+          ]
+
       ),
 
     );
