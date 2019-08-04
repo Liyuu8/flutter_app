@@ -35,14 +35,14 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body:
       new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Expanded(
+            new SizedBox(
+              width: 200.0,
+              height: 100.0,
               child:
               new Container(
-                color: Color.fromARGB(255, 255, 255, 0),
+                color: Colors.yellow,
                 child:
                 new Text(
                   "First item",
@@ -57,57 +57,31 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
 
             ),
-            
-            Padding(
-              padding: EdgeInsets.all(25.0),
-            ),
 
-            new Expanded(
+            new SizedBox(
+              width: 200.0,
+              height: 300.0,
               child:
               new Container(
-                color: Color.fromARGB(255, 255, 125, 0),
+                color: Colors.red,
                 child:
-                new Padding(
-                  padding: EdgeInsets.all(25.0),
-                  child:
-                  new Text(
+                new Text(
                   "Second item",
                   style: new TextStyle(fontSize:32.0,
-                  color: const Color(0xFF000000),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto"),
-                  ),
+                      color: const Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto"),
                 ),
 
                 padding: const EdgeInsets.all(0.0),
                 alignment: Alignment.center,
               ),
 
-            ),
-
-            new Expanded(
-              child:
-              new Padding(
-                padding: EdgeInsets.all(25.0),
-                child:
-                new Container(
-                  color: Color.fromARGB(255, 255, 0, 0),
-                  child:
-                  new Text(
-                    "Three item",
-                    style: new TextStyle(fontSize:32.0,
-                        color: const Color(0xFF000000),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto"),
-                  ),
-
-                  padding: const EdgeInsets.all(0.0),
-                  alignment: Alignment.center,
-                ),
-              ),
-            ),
+            )
           ]
+
       ),
+
     );
   }
 }
