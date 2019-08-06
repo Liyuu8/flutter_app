@@ -63,11 +63,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(24.0),
               ),
 
-              new IconButton(key:null,
+              new FloatingActionButton(key:null,
                 onPressed:buttonPressed,
-                color: Colors.orange,
-                iconSize: 100.0,
-                icon: const Icon(Icons.insert_emoticon),
+                child: Icon(Icons.android),
               )
             ]
 
