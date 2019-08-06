@@ -63,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(24.0),
               ),
 
-              new FlatButton(key:null,
+              new RaisedButton(key:null,
                 onPressed:buttonPressed,
                 color: Colors.black12,
                 child:
