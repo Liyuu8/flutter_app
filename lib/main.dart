@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Checkbox(key:null, onChanged: checkChanged, value: _checked),
+                  new Switch(key:null, onChanged: checkChanged, value: _checked),
 
                   new Text(
                     "check?",
