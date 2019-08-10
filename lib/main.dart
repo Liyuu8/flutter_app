@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _message;
-  bool _checked = false;
+  String _selected = 'A';
 
   @override
   void initState() {
@@ -65,10 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  new Switch(key:null, onChanged: checkChanged, value: _checked),
-
+                  new Radio<String>(
+                    value: 'A',
+                    groupValue: _selected,
+                    onChanged: (String value) => checkChanged(value),
+                  ),
                   new Text(
-                    "check?",
+                    "radio A",
                     style: new TextStyle(fontSize:28.0,
                         color: const Color(0xFF000000),
                         fontWeight: FontWeight.w400,
@@ -76,17 +79,39 @@ class _MyHomePageState extends State<MyHomePage> {
                   )
                 ]
 
-            )
+            ),
+
+            new Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  new Radio<String>(
+                    value: 'B',
+                    groupValue: _selected,
+                    onChanged: (String value) => checkChanged(value),
+                  ),
+                  new Text(
+                    "radio B",
+                    style: new TextStyle(fontSize:28.0,
+                        color: const Color(0xFF000000),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto"),
+                  )
+                ]
+
+            ),
           ]
 
       ),
 
     );
   }
-  void checkChanged(bool value){
+
+  void checkChanged(String value){
     setState(() {
-      _checked = value;
-      _message = value ? 'checked!' : 'not checked...';
+      _selected = value;
+      _message = 'selected: $_selected';
     });
   }
 
