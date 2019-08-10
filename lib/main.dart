@@ -67,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 child:
                 new TextField(
                   controller: controller,
+                  onChanged: textChanged,
                   style: new TextStyle(fontSize:28.0,
                       color: const Color(0xFF000000),
                       fontWeight: FontWeight.w400,
@@ -76,18 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(10.0),
               ),
 
-              new FlatButton(key:null, onPressed:buttonPressed,
-                  padding: const EdgeInsets.all(10.0),
-                  color: Colors.lightBlueAccent,
-                  child:
-                  new Text(
-                    "Push me!",
-                    style: new TextStyle(fontSize:32.0,
-                        color: const Color(0xFF000000),
-                        fontWeight: FontWeight.w400,
-                        fontFamily: "Roboto"),
-                  )
-              )
             ]
 
         ),
@@ -96,9 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
     );
   }
-  void buttonPressed(){
+  void textChanged(String val){
     setState(() {
-      _message = 'you said: ' + controller.text;
+      _message = val.toUpperCase();
     });
   }
 
