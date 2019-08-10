@@ -28,11 +28,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   var _message;
-  static var _janken = <String>['グー','チョキ', 'パー'];
+  final controller = TextEditingController();
 
   @override
   void initState() {
-    _message = 'OK';
+    _message = 'OK!';
     super.initState();
   }
 
@@ -60,25 +60,33 @@ class _MyHomePageState extends State<MyHomePage> {
                       fontFamily: "Roboto"),
                 ),
 
-                padding: const EdgeInsets.all(24.0),
+                padding: const EdgeInsets.all(20.0),
               ),
 
-              new RawMaterialButton(key:null,
-                fillColor: Colors.white,
-                elevation: 10.0,
-                padding: EdgeInsets.all(10.0),
-                onPressed:buttonPressed,
+              new Padding(
                 child:
-                Text(
-                  "Push me!",
-                  style:
-                  TextStyle(
-                    fontSize: 32.0,
-                    color: const Color(0xFF000000),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Roboto"
-                  ),
-                )
+                new TextField(
+                  controller: controller,
+                  style: new TextStyle(fontSize:28.0,
+                      color: const Color(0xFF000000),
+                      fontWeight: FontWeight.w400,
+                      fontFamily: "Roboto"),
+                ),
+
+                padding: const EdgeInsets.all(10.0),
+              ),
+
+              new FlatButton(key:null, onPressed:buttonPressed,
+                  padding: const EdgeInsets.all(10.0),
+                  color: Colors.lightBlueAccent,
+                  child:
+                  new Text(
+                    "Push me!",
+                    style: new TextStyle(fontSize:32.0,
+                        color: const Color(0xFF000000),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto"),
+                  )
               )
             ]
 
@@ -90,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   void buttonPressed(){
     setState(() {
-      _message = (_janken..shuffle()).first;
+      _message = 'you said: ' + controller.text;
     });
   }
 
