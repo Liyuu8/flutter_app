@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _message;
-  double _value = 0.0;
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
       new Column(
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             new Text(
               _message,
@@ -60,12 +59,17 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.all(10.0),
             ),
 
-            new Slider(
-                value: _value,
-                onChanged: sliderChanged,
-                min: 0.0,
-                max: 100.0,
-                divisions: 20,
+            new RaisedButton(
+              onPressed: buttonPressed,
+              padding: const EdgeInsets.all(10.0),
+              child:
+              new Text(
+                "Tap me!",
+                style: new TextStyle(fontSize:28.0,
+                    color: const Color(0xFF000000),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto"),
+              ),
             )
 
           ]
@@ -75,11 +79,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  void sliderChanged(double value){
-    setState(() {
-      _value = value.floorToDouble();
-      _message = 'set value: $_value';
-    });
+  void buttonPressed(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => Container(
+        color: Colors.white70,
+        child:
+        new Text(
+          "Hello!!",
+          style: new TextStyle(fontSize:28.0,
+              color: const Color(0xFF000000),
+              fontWeight: FontWeight.w400,
+              decorationStyle: TextDecorationStyle.solid),
+        ),
+      )
+    );
   }
 
 }
