@@ -82,18 +82,26 @@ class _MyHomePageState extends State<MyHomePage> {
   void buttonPressed(){
     showDialog(
       context: context,
-      builder: (BuildContext context) => Container(
-        color: Colors.white70,
-        child:
-        new Text(
-          "Hello!!",
-          style: new TextStyle(fontSize:28.0,
-              color: const Color(0xFF000000),
-              fontWeight: FontWeight.w400,
-              decorationStyle: TextDecorationStyle.solid),
-        ),
-      )
-    );
+      builder: (BuildContext context) => AlertDialog(
+        title: Text("Hello!"),
+        content: Text("This is sample..."),
+        actions: <Widget>[
+          FlatButton(
+            child: const Text('Cancel'),
+            onPressed: () => Navigator.pop<String>(context, 'Cancel'),
+          ),
+          FlatButton(
+            child: const Text('OK'),
+            onPressed: () => Navigator.pop<String>(context, 'OK'),
+          )
+        ],
+      ),
+    ).then<void>((value) => resultAlert(value));
   }
 
+  void resultAlert(String value){
+    setState(() {
+      _message = 'selected: $value';
+    });
+  }
 }
