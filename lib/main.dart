@@ -80,24 +80,34 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void buttonPressed(){
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) => SimpleDialog(
-        title: Text("Select assignment"),
-        children: <Widget>[
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop<String>(context, 'One'),
-            child: const Text('One'),
-          ),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop<String>(context, 'Two'),
-            child: const Text('Two'),
-          ),
-          SimpleDialogOption(
-            onPressed: () => Navigator.pop<String>(context, 'Three'),
-            child: const Text('Three'),
-          ),
-        ],
+      builder: (BuildContext context) => new Column(
+          children: <Widget>[
+            new Text(
+              'This is Modal Bottom Sheet!',
+              style: new TextStyle(fontSize:24.0,
+                  color: const Color(0xFF000000),
+                  fontWeight: FontWeight.w300,
+                  fontFamily: "Roboto"),
+            ),
+
+            new Padding(
+              padding: const EdgeInsets.all(10.0),
+            ),
+
+            new FlatButton(
+              onPressed: () => Navigator.pop<String>(context, 'Close'),
+              child:
+              new Text(
+                "Close...",
+                style: new TextStyle(fontSize:24.0,
+                    color: Colors.cyan,
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto"),
+              ),
+            )
+          ]
       ),
     ).then<void>((value) => resultAlert(value));
   }
