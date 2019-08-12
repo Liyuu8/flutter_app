@@ -27,78 +27,97 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String _message;
-  int _index;
-
-  @override
-  void initState() {
-    _message = 'OK?';
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
       ),
-      body:
-      new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            new Text(
-              _message,
-              style: new TextStyle(fontSize:32.0,
-                  color: const Color(0xFF000000),
-                  fontWeight: FontWeight.w200,
-                  fontFamily: "Roboto"),
-            ),
 
-            new ListView(
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20.0),
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.android),
-                  title: const Text('First item'),
-                  selected: _index == 1,
-                  onTap: (){
-                    _index = 1;
-                    tapTile();
-                  },
+      body:
+      new SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        padding: const EdgeInsets.all(0.0),
+        child:
+        new Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            new Container(
+              color: Colors.blue,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "One",
+                  style: const TextStyle(fontSize: 32.0)
                 ),
-                ListTile(
-                  leading: const Icon(Icons.favorite),
-                  title: const Text('Second item'),
-                  selected: _index == 2,
-                  onTap: (){
-                    _index = 2;
-                    tapTile();
-                  },
+              ),
+            ),
+            new Container(
+              color: Colors.white,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Two",
+                  style: const TextStyle(fontSize: 32.0)
                 ),
-                ListTile(
-                  leading: const Icon(Icons.favorite_border),
-                  title: const Text('Three item'),
-                  selected: _index == 3,
-                  onTap: (){
-                    _index = 3;
-                    tapTile();
-                  },
+              ),
+            ),
+            new Container(
+              color: Colors.blue,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Three",
+                  style: const TextStyle(fontSize: 32.0)
                 ),
-              ],
-            )
+              ),
+            ),
+            new Container(
+              color: Colors.white,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Four",
+                  style: const TextStyle(fontSize: 32.0)
+                ),
+              ),
+            ),
+            new Container(
+              color: Colors.blue,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Five",
+                  style: const TextStyle(fontSize: 32.0)
+                ),
+              ),
+            ),
+            new Container(
+              color: Colors.white,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Six",
+                  style: const TextStyle(fontSize: 32.0)
+                ),
+              ),
+            ),
+            new Container(
+              color: Colors.blue,
+              height: 120.0,
+              child: const Center(
+                child: Text(
+                  "Seven",
+                  style: const TextStyle(fontSize: 32.0)
+                ),
+              ),
+            ),
           ]
+        ),
 
       ),
 
     );
-  }
-
-  void tapTile(){
-    setState(() {
-      _message = 'You taped: No, $_index';
-    });
   }
 }
