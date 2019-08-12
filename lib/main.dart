@@ -28,10 +28,13 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _message;
+  String _stars;
+  int _star = 2;
 
   @override
   void initState() {
     _message = 'OK?';
+    _stars = 'Stars?';
     super.initState();
   }
 
@@ -40,81 +43,63 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
+        leading: BackButton(
+          color: Colors.white,
+        ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.android),
+            tooltip: 'add star...',
+            onPressed: iconPressedA,
+          ),
+          IconButton(
+            icon: Icon(Icons.favorite),
+            tooltip: 'subtract star...',
+            onPressed: iconPressedB,
+          ),
+        ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(30.0),
+          child: Center(
+            child: Text(
+              _stars,
+              style: TextStyle(
+                fontSize: 22.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ),
       ),
       body:
-      new Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            new Text(
-              _message,
-              style: new TextStyle(fontSize:32.0,
-                  color: const Color(0xFF000000),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto"),
-            ),
-
-            new Padding(
-              padding: const EdgeInsets.all(10.0),
-            ),
-
-            new RaisedButton(
-              onPressed: buttonPressed,
-              padding: const EdgeInsets.all(10.0),
-              child:
-              new Text(
-                "Tap me!",
-                style: new TextStyle(fontSize:28.0,
-                    color: const Color(0xFF000000),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Roboto"),
-              ),
-            )
-
-          ]
-
-      ),
-
+      new Center(
+        child: Text(
+          _message,
+          style: const TextStyle(
+            fontSize: 28.0,
+          ),
+        ),
+      )
     );
   }
 
-  void buttonPressed(){
-    showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) => new Column(
-          children: <Widget>[
-            new Text(
-              'This is Modal Bottom Sheet!',
-              style: new TextStyle(fontSize:24.0,
-                  color: const Color(0xFF000000),
-                  fontWeight: FontWeight.w300,
-                  fontFamily: "Roboto"),
-            ),
-
-            new Padding(
-              padding: const EdgeInsets.all(10.0),
-            ),
-
-            new FlatButton(
-              onPressed: () => Navigator.pop<String>(context, 'Close'),
-              child:
-              new Text(
-                "Close...",
-                style: new TextStyle(fontSize:24.0,
-                    color: Colors.cyan,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Roboto"),
-              ),
-            )
-          ]
-      ),
-    ).then<void>((value) => resultAlert(value));
+  void iconPressedA(){
+    _message = 'tap "android".';
+    _star++;
+    update();
   }
 
-  void resultAlert(String value){
+  void iconPressedB(){
+    _message = 'tap "favorite".';
+    _star--;
+    update();
+  }
+
+  void update(){
+    _star = _star < 0 ? 0 : (_star > 5 ? 5 : _star);
     setState(() {
-      _message = 'selected: $value';
+      _stars = '★★★★★☆☆☆☆☆'.substring(5 - _star, 5 - _star + 5);
+      _message = _message + '[$_star]';
     });
   }
 }
