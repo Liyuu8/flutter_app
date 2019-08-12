@@ -28,7 +28,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _message;
-  int _index = 0;
 
   @override
   void initState() {
@@ -43,46 +42,38 @@ class _MyHomePageState extends State<MyHomePage> {
         title: new Text('App Name'),
       ),
       body:
-      new Center(
-        child:
-        new Text(
-          _message,
-          style: new TextStyle(fontSize:28.0,
-              color: const Color(0xFF000000),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Roboto"),
-        ),
+      new Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            new Text(
+              _message,
+              style: new TextStyle(fontSize:32.0,
+                  color: const Color(0xFF000000),
+                  fontWeight: FontWeight.w200,
+                  fontFamily: "Roboto"),
+            ),
+
+            new ListView(
+              shrinkWrap: true,
+              padding: const EdgeInsets.all(20.0),
+              children: <Widget>[
+                Text('First item',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                Text('Second item',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+                Text('Three item',
+                  style: TextStyle(fontSize: 24.0),
+                ),
+              ],
+            )
+          ]
 
       ),
 
-      bottomNavigationBar: new BottomNavigationBar(
-        currentIndex: _index,
-        items: [
-          new BottomNavigationBarItem(
-            icon: const Icon(Icons.android),
-            title: new Text('bottom'),
-          ),
-
-          new BottomNavigationBarItem(
-            icon: const Icon(Icons.favorite),
-            title: new Text('bottom'),
-          ),
-
-          new BottomNavigationBarItem(
-            icon: const Icon(Icons.star),
-            title: new Text('bottom'),
-          )
-        ],
-        onTap: tabBottomIcon,
-      ),
     );
-  }
-
-  void tabBottomIcon(int value){
-    var items = ['Android', 'Heart', 'Star'];
-    setState(() {
-      _index = value;
-      _message = 'you tapped: "' + items[_index] + '".';
-    });
   }
 }
