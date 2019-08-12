@@ -28,13 +28,11 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   String _message;
-  String _stars;
-  int _star = 2;
+  int _index = 0;
 
   @override
   void initState() {
     _message = 'OK?';
-    _stars = 'Stars?';
     super.initState();
   }
 
@@ -43,63 +41,48 @@ class _MyHomePageState extends State<MyHomePage> {
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
-        leading: BackButton(
-          color: Colors.white,
-        ),
-        actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.android),
-            tooltip: 'add star...',
-            onPressed: iconPressedA,
-          ),
-          IconButton(
-            icon: Icon(Icons.favorite),
-            tooltip: 'subtract star...',
-            onPressed: iconPressedB,
-          ),
-        ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(30.0),
-          child: Center(
-            child: Text(
-              _stars,
-              style: TextStyle(
-                fontSize: 22.0,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
       ),
       body:
       new Center(
-        child: Text(
+        child:
+        new Text(
           _message,
-          style: const TextStyle(
-            fontSize: 28.0,
-          ),
+          style: new TextStyle(fontSize:28.0,
+              color: const Color(0xFF000000),
+              fontWeight: FontWeight.w400,
+              fontFamily: "Roboto"),
         ),
-      )
+
+      ),
+
+      bottomNavigationBar: new BottomNavigationBar(
+        currentIndex: _index,
+        items: [
+          new BottomNavigationBarItem(
+            icon: const Icon(Icons.android),
+            title: new Text('bottom'),
+          ),
+
+          new BottomNavigationBarItem(
+            icon: const Icon(Icons.favorite),
+            title: new Text('bottom'),
+          ),
+
+          new BottomNavigationBarItem(
+            icon: const Icon(Icons.star),
+            title: new Text('bottom'),
+          )
+        ],
+        onTap: tabBottomIcon,
+      ),
     );
   }
 
-  void iconPressedA(){
-    _message = 'tap "android".';
-    _star++;
-    update();
-  }
-
-  void iconPressedB(){
-    _message = 'tap "favorite".';
-    _star--;
-    update();
-  }
-
-  void update(){
-    _star = _star < 0 ? 0 : (_star > 5 ? 5 : _star);
+  void tabBottomIcon(int value){
+    var items = ['Android', 'Heart', 'Star'];
     setState(() {
-      _stars = '★★★★★☆☆☆☆☆'.substring(5 - _star, 5 - _star + 5);
-      _message = _message + '[$_star]';
+      _index = value;
+      _message = 'you tapped: "' + items[_index] + '".';
     });
   }
 }
