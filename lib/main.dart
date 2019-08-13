@@ -27,97 +27,61 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List _items = <Widget>[];
+
+  @override
+  void initState() {
+    super.initState();
+    for(var i = 0; i < 10; i++){
+      var item = Container(
+        color: i.isOdd ? Colors.blue : Colors.white,
+        height: 100.0,
+        child: Center(
+          child: Text(
+            'No, $i',
+            style: const TextStyle(fontSize: 32.0),
+          ),
+        ),
+      );
+      _items.add(item);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      appBar: new AppBar(
-        title: new Text('App Name'),
-      ),
-
       body:
-      new SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        padding: const EdgeInsets.all(0.0),
-        child:
-        new Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            new Container(
-              color: Colors.blue,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "One",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
+      new CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            pinned: true,
+            expandedHeight: 200.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: const Text('Sliver App Bar'),
+              background: Stack(
+                fit: StackFit.expand,
+                children: <Widget>[
+                  Image.network(
+                    'https://github.com/flutter/website/blob/master/examples/layout/lakes/step5/images/lake.jpg?raw=true',
+                    fit: BoxFit.fill,
+                  )
+                ],
               ),
             ),
-            new Container(
-              color: Colors.white,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Two",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-            new Container(
-              color: Colors.blue,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Three",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-            new Container(
-              color: Colors.white,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Four",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-            new Container(
-              color: Colors.blue,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Five",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-            new Container(
-              color: Colors.white,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Six",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-            new Container(
-              color: Colors.blue,
-              height: 120.0,
-              child: const Center(
-                child: Text(
-                  "Seven",
-                  style: const TextStyle(fontSize: 32.0)
-                ),
-              ),
-            ),
-          ]
-        ),
+            actions: <Widget>[
+              IconButton(
+                icon: const Icon(Icons.android),
+                tooltip: 'icon button',
+                onPressed: (){ print('pressed.'); },
+              )
+            ],
+          ),
 
+          SliverList(
+            delegate: SliverChildListDelegate(_items),
+          ),
+        ],
       ),
-
     );
   }
 }
