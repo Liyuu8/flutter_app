@@ -26,61 +26,55 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List _items = <Widget>[];
+class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
+  final List<Tab> tabs = <Tab>[
+    Tab(text: 'One'),
+    Tab(text: 'Two'),
+    Tab(text: 'Three'),
+  ];
+
+  TabController _tabController;
 
   @override
   void initState() {
     super.initState();
-    for(var i = 0; i < 10; i++){
-      var item = Container(
-        color: i.isOdd ? Colors.blue : Colors.white,
-        height: 100.0,
-        child: Center(
-          child: Text(
-            'No, $i',
-            style: const TextStyle(fontSize: 32.0),
-          ),
-        ),
-      );
-      _items.add(item);
-    }
+    _tabController = TabController(
+      vsync: this,
+      length: tabs.length
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body:
-      new CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            pinned: true,
-            expandedHeight: 200.0,
-            flexibleSpace: FlexibleSpaceBar(
-              title: const Text('Sliver App Bar'),
-              background: Stack(
-                fit: StackFit.expand,
-                children: <Widget>[
-                  Image.network(
-                    'https://github.com/flutter/website/blob/master/examples/layout/lakes/step5/images/lake.jpg?raw=true',
-                    fit: BoxFit.fill,
-                  )
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              IconButton(
-                icon: const Icon(Icons.android),
-                tooltip: 'icon button',
-                onPressed: (){ print('pressed.'); },
-              )
-            ],
-          ),
+      appBar: new AppBar(
+        title: new Text('App Name'),
+        bottom: new TabBar(
+          controller: _tabController,
+          tabs: tabs,
+        )
 
-          SliverList(
-            delegate: SliverChildListDelegate(_items),
-          ),
-        ],
+      ),
+
+      body:
+      new TabBarView(
+        controller: _tabController,
+        children: tabs.map((Tab tab){
+          return createTab(tab);
+        }).toList(),
+      ),
+
+    );
+  }
+
+  Widget createTab(Tab tab){
+    return Center(
+      child: Text(
+        'This is "' + tab.text + '" Tab.',
+        style: const TextStyle(
+          fontSize: 32.0,
+          color: Colors.blue,
+        ),
       ),
     );
   }
