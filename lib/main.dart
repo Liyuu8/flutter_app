@@ -26,22 +26,26 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => new _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-  final List<Tab> tabs = <Tab>[
-    Tab(text: 'One'),
-    Tab(text: 'Two'),
-    Tab(text: 'Three'),
-  ];
-
-  TabController _tabController;
+class _MyHomePageState extends State<MyHomePage> {
+  List _items = <Widget>[];
+  String _message;
+  int _tapped = 0;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      vsync: this,
-      length: tabs.length
-    );
+    _message = 'OK?';
+    for(var i = 0; i < 5; i++){
+      var item = ListTile(
+        leading: const Icon(Icons.android),
+        title: Text('No, $i'),
+        onTap: (){
+          _tapped = i;
+          tapItem();
+        },
+      );
+      _items.add(item);
+    }
   }
 
   @override
@@ -49,33 +53,32 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return new Scaffold(
       appBar: new AppBar(
         title: new Text('App Name'),
-        bottom: new TabBar(
-          controller: _tabController,
-          tabs: tabs,
-        )
-
       ),
 
-      body:
-      new TabBarView(
-        controller: _tabController,
-        children: tabs.map((Tab tab){
-          return createTab(tab);
-        }).toList(),
+      body: Center(
+        child: Text(
+          _message,
+          style: TextStyle(
+            fontSize: 32.0,
+          ),
+        ),
+      ),
+
+      drawer: Drawer(
+        child: ListView(
+          shrinkWrap: true,
+          padding: const EdgeInsets.all(20.0),
+          children: _items,
+        ),
       ),
 
     );
   }
 
-  Widget createTab(Tab tab){
-    return Center(
-      child: Text(
-        'This is "' + tab.text + '" Tab.',
-        style: const TextStyle(
-          fontSize: 32.0,
-          color: Colors.blue,
-        ),
-      ),
-    );
+  void tapItem(){
+    Navigator.pop(context);
+    setState(() {
+      _message = 'tapped: [$_tapped]';
+    });
   }
 }
