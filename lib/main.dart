@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/gestures.dart';
 
 void main() => runApp(MyApp());
 
@@ -44,18 +45,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,41 +60,60 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
+      backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Column(
-          // Column is also layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.display1,
-            ),
-          ],
-        ),
+        child: MyRenderBoxWidget(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
+  @override
+  RenderObject createRenderObject(BuildContext context){
+    return _MyRenderBox();
+  }
+}
+
+class _MyRenderBox extends RenderBox {
+//  @override
+//  bool hitTest(HitTestResult result, { @required Offset posotion }) {
+//    return true;
+//  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) {
+    Canvas canvas = context.canvas;
+    int dx = offset.dx.toInt();
+    int dy = offset.dy.toInt();
+    Paint paint = Paint();
+
+    // 四角形の描写
+    paint.style = PaintingStyle.fill;
+    paint.color = Color.fromARGB(150, 0, 200, 255);
+    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 150.0, 150.0);
+    canvas.drawRect(rect, paint);
+    paint.style = PaintingStyle.stroke;
+    paint.color = Color.fromARGB(150, 200, 0, 255);
+    paint.strokeWidth = 10.0;
+    rect = Rect.fromLTWH(dx + 100.0, dy + 100.0, 150.0, 150.0);
+    canvas.drawRect(rect, paint);
+
+    // 正円の描写
+    paint.style = PaintingStyle.fill;
+    paint.color = Color.fromARGB(150, 0, 200, 255);
+    Offset circleOffset = Offset(dx + 100.0, dy + 100.0);
+    canvas.drawCircle(circleOffset, 75.0, paint);
+
+    // 楕円の描写
+    paint.style = PaintingStyle.stroke;
+    paint.color = Color.fromARGB(150, 200, 0, 255);
+    paint.strokeWidth = 10.0;
+    rect = Rect.fromLTWH(dx + 100.0, dy + 50.0, 200.0, 150.0);
+    canvas.drawOval(rect, paint);
+    rect = Rect.fromLTWH(dx + 50.0, dy + 100.0, 150.0, 200.0);
+    canvas.drawOval(rect, paint);
   }
 }
