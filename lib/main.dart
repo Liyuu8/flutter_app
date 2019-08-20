@@ -90,30 +90,12 @@ class _MyRenderBox extends RenderBox {
     int dy = offset.dy.toInt();
     Paint paint = Paint();
 
-    // 四角形の描写
-    paint.style = PaintingStyle.fill;
-    paint.color = Color.fromARGB(150, 0, 200, 255);
-    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 150.0, 150.0);
-    canvas.drawRect(rect, paint);
     paint.style = PaintingStyle.stroke;
-    paint.color = Color.fromARGB(150, 200, 0, 255);
-    paint.strokeWidth = 10.0;
-    rect = Rect.fromLTWH(dx + 100.0, dy + 100.0, 150.0, 150.0);
-    canvas.drawRect(rect, paint);
-
-    // 正円の描写
-    paint.style = PaintingStyle.fill;
+    paint.strokeWidth = 5.0;
     paint.color = Color.fromARGB(150, 0, 200, 255);
-    Offset circleOffset = Offset(dx + 100.0, dy + 100.0);
-    canvas.drawCircle(circleOffset, 75.0, paint);
-
-    // 楕円の描写
-    paint.style = PaintingStyle.stroke;
-    paint.color = Color.fromARGB(150, 200, 0, 255);
-    paint.strokeWidth = 10.0;
-    rect = Rect.fromLTWH(dx + 100.0, dy + 50.0, 200.0, 150.0);
-    canvas.drawOval(rect, paint);
-    rect = Rect.fromLTWH(dx + 50.0, dy + 100.0, 150.0, 200.0);
-    canvas.drawOval(rect, paint);
+    for(var i = 0; i <= 10; i++) {
+      Rect rect = Rect.fromLTRB(dx + 50.0 + 20 * i, dy + 50.0, dx + 50.0, dy + 250.0 - 20 * i);
+      canvas.drawLine(rect.topLeft, rect.bottomRight, paint);
+    }
   }
 }
