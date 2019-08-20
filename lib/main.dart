@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/gestures.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/rendering.dart';
+
+import 'dart:typed_data';
+import 'dart:async';
 import 'dart:ui' as ui;
 
 void main() => runApp(MyApp());
@@ -79,10 +83,27 @@ class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
 }
 
 class _MyRenderBox extends RenderBox {
+  ui.Image _img;
+
 //  @override
 //  bool hitTest(HitTestResult result, { @required Offset posotion }) {
 //    return true;
 //  }
+
+  _MyRenderBox(){
+    loadAssetImage('image.jpg');
+  }
+
+  loadAssetImage(String fname) => rootBundle.load("assets/$fname").then((bd) {
+    Uint8List uint8list = Uint8List.view(bd.buffer);
+    ui.instantiateImageCodec(uint8list).then((codec) {
+      codec.getNextFrame().then((frameInfo) {
+        _img = frameInfo.image;
+        markNeedsPaint();
+        print("_img created: $_img");
+      });
+    });
+  });
 
   @override
   void paint(PaintingContext context, Offset nowOffset) {
@@ -90,20 +111,15 @@ class _MyRenderBox extends RenderBox {
     int dx = nowOffset.dx.toInt();
     int dy = nowOffset.dy.toInt();
 
-    ui.ParagraphBuilder builder = ui.ParagraphBuilder(
-      ui.ParagraphStyle(textDirection: TextDirection.ltr),
-    )
-      ..pushStyle(ui.TextStyle(color: Colors.red, fontSize: 48.0))
-      ..addText('Hello! ')
-      ..pushStyle(ui.TextStyle(color: Colors.blue[700], fontSize: 30.0))
-      ..addText('This is a sample of paragraph text. ')
-      ..pushStyle(ui.TextStyle(color: Colors.blue[200], fontSize: 30.0))
-      ..addText('You can draw MULTI-FONT text!');
-
-    ui.Paragraph paragraph = builder.build()
-      ..layout(ui.ParagraphConstraints(width: 300.0));
-
+    Paint paint = Paint();
     Offset offset = Offset(dx + 50.0, dy + 50.0);
-    canvas.drawParagraph(paragraph, offset);
+    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 200.0, 200.0);
+    if(_img != null) {
+      Rect rect0 = Rect.fromLTWH(0.0, 0.0, _img.width.toDouble(), _img.height.toDouble());
+      canvas.drawImageRect(_img, rect0, rect, paint);
+      print('draw _img.');
+    } else {
+      print('_img is null.');
+    }
   }
 }
