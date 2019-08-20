@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
+import 'dart:ui' as ui;
 
 void main() => runApp(MyApp());
 
@@ -84,18 +85,25 @@ class _MyRenderBox extends RenderBox {
 //  }
 
   @override
-  void paint(PaintingContext context, Offset offset) {
+  void paint(PaintingContext context, Offset nowOffset) {
     Canvas canvas = context.canvas;
-    int dx = offset.dx.toInt();
-    int dy = offset.dy.toInt();
-    Paint paint = Paint();
+    int dx = nowOffset.dx.toInt();
+    int dy = nowOffset.dy.toInt();
 
-    paint.style = PaintingStyle.stroke;
-    paint.strokeWidth = 5.0;
-    paint.color = Color.fromARGB(150, 0, 200, 255);
-    for(var i = 0; i <= 10; i++) {
-      Rect rect = Rect.fromLTRB(dx + 50.0 + 20 * i, dy + 50.0, dx + 50.0, dy + 250.0 - 20 * i);
-      canvas.drawLine(rect.topLeft, rect.bottomRight, paint);
-    }
+    ui.ParagraphBuilder builder = ui.ParagraphBuilder(
+      ui.ParagraphStyle(textDirection: TextDirection.ltr),
+    )
+      ..pushStyle(ui.TextStyle(color: Colors.red, fontSize: 48.0))
+      ..addText('Hello! ')
+      ..pushStyle(ui.TextStyle(color: Colors.blue[700], fontSize: 30.0))
+      ..addText('This is a sample of paragraph text. ')
+      ..pushStyle(ui.TextStyle(color: Colors.blue[200], fontSize: 30.0))
+      ..addText('You can draw MULTI-FONT text!');
+
+    ui.Paragraph paragraph = builder.build()
+      ..layout(ui.ParagraphConstraints(width: 300.0));
+
+    Offset offset = Offset(dx + 50.0, dy + 50.0);
+    canvas.drawParagraph(paragraph, offset);
   }
 }
