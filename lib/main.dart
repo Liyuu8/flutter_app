@@ -111,32 +111,22 @@ class _MyRenderBox extends RenderBox {
     int dx = nowOffset.dx.toInt();
     int dy = nowOffset.dy.toInt();
 
-    Path path = Path();
-    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 75.0, 75.0);
-    path.addOval(rect);
-    rect = Rect.fromLTWH(dx + 75.0, dy + 75.0, 125.0, 125.0);
-    path.addOval(rect);
-    rect = Rect.fromLTWH(dx + 125.0, dy + 125.0, 175.0, 175.0);
-    path.addOval(rect);
+    if(_img != null) {
+      canvas.drawImage(_img, Offset(dx + 50.0, dy + 50.0), Paint());
+    }
 
     Paint paint = Paint();
     paint.style = PaintingStyle.fill;
 
     canvas.save();
-    canvas.clipPath(path);
+    Rect rect = Rect.fromLTWH(dx + 70.0, dy + 370.0, 130.0, 130.0);
+    canvas.clipRect(rect);
+    canvas.drawColor(Color.fromARGB(255, 255, 0, 0), BlendMode.darken);
+    canvas.restore();
 
-    for(var i = 0; i < 200; i++) {
-      Random random = Random();
-      double w = random.nextInt(dx + 300).toDouble();
-      double h = random.nextInt(dy + 300).toDouble();
-      double cr = random.nextInt(50).toDouble();
-      int r = random.nextInt(255);
-      int g = random.nextInt(255);
-      int b = random.nextInt(255);
-      paint.color = Color.fromARGB(50, r, g, b);
-      canvas.drawCircle(Offset(w, h), cr, paint);
-    }
-
+    rect = Rect.fromLTWH(dx + 70.0, dy + 70.0, 230.0, 230.0);
+    canvas.clipRect(rect);
+    canvas.drawColor(Color.fromARGB(255, 0, 255, 0), BlendMode.lighten);
     canvas.restore();
   }
 }
