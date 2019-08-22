@@ -111,15 +111,17 @@ class _MyRenderBox extends RenderBox {
     int dx = nowOffset.dx.toInt();
     int dy = nowOffset.dy.toInt();
 
+    Path path = Path();
+    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 75.0, 75.0);
+    path.addOval(rect);
+    rect = Rect.fromLTWH(dx + 75.0, dy + 75.0, 125.0, 125.0);
+    path.addOval(rect);
+    rect = Rect.fromLTWH(dx + 125.0, dy + 125.0, 175.0, 175.0);
+    path.addOval(rect);
+
     Paint paint = Paint();
-    Offset offset = Offset(dx + 50.0, dy + 50.0);
-    Rect rect = Rect.fromLTWH(dx + 50.0, dy + 50.0, 200.0, 200.0);
-    if(_img != null) {
-      Rect rect0 = Rect.fromLTWH(0.0, 0.0, _img.width.toDouble(), _img.height.toDouble());
-      canvas.drawImageRect(_img, rect0, rect, paint);
-      print('draw _img.');
-    } else {
-      print('_img is null.');
-    }
+    paint.color = Color.fromARGB(150, 255, 0, 0);
+    paint.style = PaintingStyle.fill;
+    canvas.drawPath(path, paint);
   }
 }
