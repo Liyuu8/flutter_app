@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/rendering.dart';
 
 import 'dart:typed_data';
-import 'dart:async';
+import 'dart:math';
 import 'dart:ui' as ui;
 
 void main() => runApp(MyApp());
@@ -119,9 +119,23 @@ class _MyRenderBox extends RenderBox {
     rect = Rect.fromLTWH(dx + 125.0, dy + 125.0, 175.0, 175.0);
     path.addOval(rect);
 
+    canvas.save();
+
     Paint paint = Paint();
     paint.color = Color.fromARGB(150, 255, 0, 0);
     paint.style = PaintingStyle.fill;
     canvas.drawPath(path, paint);
+
+    canvas.translate(0.0, 100.0);
+    paint.color = Color.fromARGB(150, 0, 0, 255);
+    canvas.drawPath(path, paint);
+
+    paint.color = Color.fromARGB(150, 0, 255, 0);
+    canvas.rotate(-0.5 * pi);
+    canvas.translate(-600.0, -200.0);
+    canvas.scale(1 * 1.75);
+    canvas.drawPath(path, paint);
+
+    canvas.restore();
   }
 }
