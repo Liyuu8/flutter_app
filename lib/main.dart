@@ -119,23 +119,23 @@ class _MyRenderBox extends RenderBox {
     rect = Rect.fromLTWH(dx + 125.0, dy + 125.0, 175.0, 175.0);
     path.addOval(rect);
 
-    canvas.save();
-    canvas.clipRect(Rect.fromLTWH(dx + 75.0, dy + 75.0, 150.0, 150.0));
-
     Paint paint = Paint();
-    paint.color = Color.fromARGB(150, 255, 0, 0);
     paint.style = PaintingStyle.fill;
-    canvas.drawPath(path, paint);
 
-    canvas.translate(0.0, 100.0);
-    paint.color = Color.fromARGB(150, 0, 0, 255);
-    canvas.drawPath(path, paint);
+    canvas.save();
+    canvas.clipPath(path);
 
-    paint.color = Color.fromARGB(150, 0, 255, 0);
-    canvas.rotate(-0.5 * pi);
-    canvas.translate(-600.0, -200.0);
-    canvas.scale(1 * 1.75);
-    canvas.drawPath(path, paint);
+    for(var i = 0; i < 200; i++) {
+      Random random = Random();
+      double w = random.nextInt(dx + 300).toDouble();
+      double h = random.nextInt(dy + 300).toDouble();
+      double cr = random.nextInt(50).toDouble();
+      int r = random.nextInt(255);
+      int g = random.nextInt(255);
+      int b = random.nextInt(255);
+      paint.color = Color.fromARGB(50, r, g, b);
+      canvas.drawCircle(Offset(w, h), cr, paint);
+    }
 
     canvas.restore();
   }
