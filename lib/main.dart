@@ -84,11 +84,20 @@ class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
 
 class _MyRenderBox extends RenderBox {
   ui.Image _img;
+  Offset _pos;
 
-//  @override
-//  bool hitTest(HitTestResult result, { @required Offset posotion }) {
-//    return true;
-//  }
+  @override
+  bool hitTest(HitTestResult result, { @required Offset position }) {
+    result.add(BoxHitTestEntry(this, position));
+    return true;
+  }
+
+  @override
+  void handleEvent(PointerEvent event, HitTestEntry entry) {
+    super.handleEvent(event, entry);
+    _pos = event.position;
+    markNeedsPaint();
+  }
 
   _MyRenderBox(){
     loadAssetImage('image.jpg');
@@ -108,22 +117,14 @@ class _MyRenderBox extends RenderBox {
   @override
   void paint(PaintingContext context, Offset nowOffset) {
     Canvas canvas = context.canvas;
-    double dx = nowOffset.dx + 30.0;
-    double dy = nowOffset.dy + 30.0;
+    canvas.drawColor(Colors.black, BlendMode.clear);
 
-    if(_img != null) {
-      canvas.drawImage(_img, Offset(dx, dy), Paint());
-    }
-
-    Paint paint = Paint();
-    paint.style = PaintingStyle.fill;
-    paint.blendMode = BlendMode.darken;
-
-    for(var i = 0; i < 10; i++) {
-      for(var j = 0; j < 10; j++) {
-        paint.color = Color.fromARGB(255, 25 * i, 0, 25 * j);
-        Rect rect = Rect.fromLTWH(dx + 30.0 * i, dy + 30.0 * j, 30.0, 30.0);
-        canvas.drawOval(rect, paint);
+    if(_pos != null) {
+      Paint paint = Paint();
+      paint.style = PaintingStyle.fill;
+      for(var i = 0; i < 10; i++) {
+        paint.color = Color.fromARGB(50, 255, 255, 255);
+        canvas.drawCircle(_pos, i * 5.0, paint);
       }
     }
   }
