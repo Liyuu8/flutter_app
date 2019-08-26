@@ -52,6 +52,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -63,69 +68,41 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(widget.title, style: TextStyle(fontSize: 30.0),),
       ),
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: MyRenderBoxWidget(),
+        child: CustomPaint(
+          painter: MyPainter(),
+        ),
       ),
     );
   }
 }
 
-class MyRenderBoxWidget extends SingleChildRenderObjectWidget {
-  @override
-  RenderObject createRenderObject(BuildContext context){
-    return _MyRenderBox();
-  }
-}
-
-class _MyRenderBox extends RenderBox {
-  ui.Image _img;
-  Offset _pos;
+class MyPainter extends CustomPainter {
 
   @override
-  bool hitTest(HitTestResult result, { @required Offset position }) {
-    result.add(BoxHitTestEntry(this, position));
-    return true;
-  }
-
-  @override
-  void handleEvent(PointerEvent event, HitTestEntry entry) {
-    super.handleEvent(event, entry);
-    _pos = event.position;
-    markNeedsPaint();
-  }
-
-  _MyRenderBox(){
-    loadAssetImage('image.jpg');
-  }
-
-  loadAssetImage(String fname) => rootBundle.load("assets/$fname").then((bd) {
-    Uint8List uint8list = Uint8List.view(bd.buffer);
-    ui.instantiateImageCodec(uint8list).then((codec) {
-      codec.getNextFrame().then((frameInfo) {
-        _img = frameInfo.image;
-        markNeedsPaint();
-        print("_img created: $_img");
-      });
-    });
-  });
-
-  @override
-  void paint(PaintingContext context, Offset nowOffset) {
-    Canvas canvas = context.canvas;
-    canvas.drawColor(Colors.black, BlendMode.clear);
-
-    if(_pos != null) {
-      Paint paint = Paint();
-      paint.style = PaintingStyle.fill;
-      for(var i = 0; i < 10; i++) {
-        paint.color = Color.fromARGB(50, 255, 255, 255);
-        canvas.drawCircle(_pos, i * 5.0, paint);
-      }
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint();
+    paint.style = PaintingStyle.fill;
+    paint.color = Colors.black;
+    print(size);
+    for(var i = 0; i < 100; i++) {
+      Random random = Random();
+      double w = random.nextInt(300).toDouble() - 150;
+      double h = random.nextInt(300).toDouble() - 150;
+      double cr = random.nextInt(50).toDouble();
+      int r = random.nextInt(255);
+      int g = random.nextInt(255);
+      int b = random.nextInt(255);
+      paint.color = Color.fromARGB(50, r, g, b);
+      canvas.drawCircle(Offset(w, h), cr, paint);
     }
   }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => true;
 }
