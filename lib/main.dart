@@ -50,6 +50,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  GlobalKey _homeStateKey = GlobalKey();
+  Offset _pos;
 
   @override
   void initState() {
@@ -74,32 +76,51 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: CustomPaint(
-          painter: MyPainter(),
+        child: Listener(
+          onPointerDown: _pointerDown,
+          onPointerMove: _pointerMove,
+          child: CustomPaint(
+            key: _homeStateKey,
+            painter: MyPainter(_pos),
+            child: ConstrainedBox(
+              constraints: BoxConstraints.expand(),
+            ),
+          ),
         ),
       ),
     );
   }
+
+  void _pointerDown(PointerDownEvent event) {
+    RenderBox referenceBox = _homeStateKey.currentContext.findRenderObject();
+    setState(() {
+      _pos = referenceBox.globalToLocal(event.position);
+    });
+  }
+
+  void _pointerMove(PointerMoveEvent event) {
+    RenderBox referenceBox = _homeStateKey.currentContext.findRenderObject();
+    setState(() {
+      _pos = referenceBox.globalToLocal(event.position);
+    });
+  }
 }
 
 class MyPainter extends CustomPainter {
+  Offset _pos;
+
+  MyPainter(this._pos);
 
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint();
     paint.style = PaintingStyle.fill;
-    paint.color = Colors.black;
-    print(size);
-    for(var i = 0; i < 100; i++) {
-      Random random = Random();
-      double w = random.nextInt(300).toDouble() - 150;
-      double h = random.nextInt(300).toDouble() - 150;
-      double cr = random.nextInt(50).toDouble();
-      int r = random.nextInt(255);
-      int g = random.nextInt(255);
-      int b = random.nextInt(255);
-      paint.color = Color.fromARGB(50, r, g, b);
-      canvas.drawCircle(Offset(w, h), cr, paint);
+    paint.color = Color.fromARGB(25, 255, 0, 0);
+    if(_pos != null) {
+      for(var i = 0; i < 10; i++) {
+        canvas.drawCircle(_pos, 10.0 * i, paint);
+      }
+      canvas.drawCircle(_pos, 50.0, paint);
     }
   }
 
