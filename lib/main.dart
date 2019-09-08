@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'dart:async';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() => runApp(MyApp());
 
@@ -52,7 +48,15 @@ class FirstScreen extends StatefulWidget {
 
 class _FirstScreenState extends State<FirstScreen> {
   final _controller = TextEditingController();
-  final _fname = 'assets/data.txt';
+  double _r = 0.0;
+  double _g = 0.0;
+  double _b = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadPref();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,45 +72,92 @@ class _FirstScreenState extends State<FirstScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text('Home'),
       ),
-      body: Column(
-        children: <Widget>[
-          Text('Home Screen',),
-          Padding(padding: EdgeInsets.all(20.0),),
-          TextField(
-            controller: _controller,
-            maxLines: 5,
-          )
-        ],
+      body: Container(
+        color: Color.fromARGB(200, _r.toInt(), _g.toInt(), _b.toInt()),
+        child: Column(
+          children: <Widget>[
+            Text('Home Screen',),
+            Padding(padding: EdgeInsets.all(20.0),),
+            TextField(
+              controller: _controller,
+            ),
+            Padding(padding: EdgeInsets.all(10.0),),
+            Slider(
+              min: 0.0,
+              max: 255.0,
+              value: _r,
+              divisions: 255,
+              onChanged: (double value) {
+                setState(() {
+                  _r = value;
+                });
+              },
+            ),
+            Slider(
+              min: 0.0,
+              max: 255.0,
+              value: _g,
+              divisions: 255,
+              onChanged: (double value) {
+                setState(() {
+                  _g = value;
+                });
+              },
+            ),
+            Slider(
+              min: 0.0,
+              max: 255.0,
+              value: _b,
+              divisions: 255,
+              onChanged: (double value) {
+                setState(() {
+                  _b = value;
+                });
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.open_in_new),
-        onPressed: () => setState(() => {
-          loadIt().then((String value){
-            setState(() {
-              _controller.text = value;
-            });
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: Text("loaded!"),
-                content: Text("load message from Asset."),
-              )
-            );
-          })
-        }),
+        onPressed: () {
+          savePref();
+          showDialog(
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text("saved!"),
+              content: Text("save preferences."),
+            )
+          );
+        },
       ),
     );
   }
 
-  Future<String> getDataAsset(String path) async {
-    return await rootBundle.loadString(path);
+  void loadPref() async {
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      setState(() {
+        _r = (prefs.getDouble('r') ?? 0.0);
+        _g = (prefs.getDouble('g') ?? 0.0);
+        _b = (prefs.getDouble('b') ?? 0.0);
+        _controller.text = (prefs.getString('input') ?? '');
+      });
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+            title: Text("loaded!"),
+            content: Text("load preferences."),
+          )
+      );
+    });
   }
 
-  Future<String> loadIt() async {
-    try {
-      return await getDataAsset(_fname);
-    } catch(e) {
-      return null;
-    }
+  void savePref() async {
+    SharedPreferences.getInstance().then((SharedPreferences prefs) {
+      prefs.setDouble('r', _r);
+      prefs.setDouble('g', _g);
+      prefs.setDouble('b', _b);
+      prefs.setString('input', _controller.text);
+    });
   }
 }
