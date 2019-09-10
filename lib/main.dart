@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:async';
+import 'package:sqflite/sqflite.dart';
+import 'dart:collection';
+import 'package:path/path.dart';
 
 void main() => runApp(MyApp());
 
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => FirstScreen(),
+        '/list': (context) => SecondScreen(),
       },
     );
   }
@@ -47,16 +50,18 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
-  final _controller = TextEditingController();
-  double _r = 0.0;
-  double _g = 0.0;
-  double _b = 0.0;
+  final _controllerA = TextEditingController();
+  final _controllerB = TextEditingController();
+  final _controllerC = TextEditingController();
 
-  @override
-  void initState() {
-    super.initState();
-    loadPref();
-  }
+  final TextStyle styleA = TextStyle(
+    fontSize: 20.0,
+    color: Colors.black87,
+  );
+  final TextStyle styleB = TextStyle(
+    fontSize: 24.0,
+    color: Colors.black87,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -72,61 +77,56 @@ class _FirstScreenState extends State<FirstScreen> {
         // the App.build method, and use it to set our appbar title.
         title: Text('Home'),
       ),
-      body: Container(
-        color: Color.fromARGB(200, _r.toInt(), _g.toInt(), _b.toInt()),
+      body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text('Home Screen',),
-            Padding(padding: EdgeInsets.all(20.0),),
+            Text('Name: ', style: styleB,),
             TextField(
-              controller: _controller,
+              controller: _controllerA,
+              style: styleA,
             ),
-            Padding(padding: EdgeInsets.all(10.0),),
-            Slider(
-              min: 0.0,
-              max: 255.0,
-              value: _r,
-              divisions: 255,
-              onChanged: (double value) {
-                setState(() {
-                  _r = value;
-                });
-              },
+            Text('Mail: ', style: styleB,),
+            TextField(
+              controller: _controllerB,
+              style: styleA,
             ),
-            Slider(
-              min: 0.0,
-              max: 255.0,
-              value: _g,
-              divisions: 255,
-              onChanged: (double value) {
-                setState(() {
-                  _g = value;
-                });
-              },
-            ),
-            Slider(
-              min: 0.0,
-              max: 255.0,
-              value: _b,
-              divisions: 255,
-              onChanged: (double value) {
-                setState(() {
-                  _b = value;
-                });
-              },
+            Text('Tel: ', style: styleB,),
+            TextField(
+              controller: _controllerC,
+              style: styleA,
             ),
           ],
         ),
       ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 0,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text('add'),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text('list'),
+            icon: Icon(Icons.list),
+          ),
+        ],
+        onTap: (int index) {
+          if(index == 1) {
+            Navigator.pushNamed(context, '/list');
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.open_in_new),
+        child: Icon(Icons.save),
         onPressed: () {
-          savePref();
+          saveData();
           showDialog(
             context: context,
             builder: (BuildContext context) => AlertDialog(
               title: Text("saved!"),
-              content: Text("save preferences."),
+              content: Text("insert data into database."),
             )
           );
         },
@@ -134,30 +134,110 @@ class _FirstScreenState extends State<FirstScreen> {
     );
   }
 
-  void loadPref() async {
-    SharedPreferences.getInstance().then((SharedPreferences prefs) {
-      setState(() {
-        _r = (prefs.getDouble('r') ?? 0.0);
-        _g = (prefs.getDouble('g') ?? 0.0);
-        _b = (prefs.getDouble('b') ?? 0.0);
-        _controller.text = (prefs.getString('input') ?? '');
-      });
-      showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text("loaded!"),
-            content: Text("load preferences."),
-          )
-      );
+  void saveData() async {
+    String dbPath = await getDatabasesPath();
+    String path = join(dbPath, "mydata.db");
+
+    String data1 = _controllerA.text;
+    String data2 = _controllerB.text;
+    String data3 = _controllerC.text;
+
+    String query = 'INSERT INTO mydata(name, mail, tel) VALUES("$data1", "$data2", "$data3")';
+
+    Database database = await openDatabase(path, version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(
+          "CREATE TABLE IF NOT EXISTS mydata (id INTEGER PRIMARY KEY, name TEXT, mail TEXT, tel TEXT)"
+        );
+      }
+    );
+
+    await database.transaction((txn) async {
+      int id = await txn.rawInsert(query);
+      print("insert: $id");
+    });
+
+    setState(() {
+      _controllerA.text = '';
+      _controllerB.text = '';
+      _controllerC.text = '';
     });
   }
+}
 
-  void savePref() async {
-    SharedPreferences.getInstance().then((SharedPreferences prefs) {
-      prefs.setDouble('r', _r);
-      prefs.setDouble('g', _g);
-      prefs.setDouble('b', _b);
-      prefs.setString('input', _controller.text);
+
+class SecondScreen extends StatefulWidget {
+  SecondScreen({Key key}) : super(key : key);
+
+  @override
+  _SecondScreenState createState() => new _SecondScreenState();
+}
+
+class _SecondScreenState extends State<SecondScreen> {
+  List<Widget> _items = <Widget>[];
+
+  @override
+  void initState() {
+    super.initState();
+    getItems();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('List'),
+      ),
+      body: ListView(
+        children: _items,
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            title: Text('add'),
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            title: Text('list'),
+            icon: Icon(Icons.list),
+          ),
+        ],
+        onTap: (int index) {
+          if(index == 0) {
+            Navigator.pop(context);
+          }
+        },
+      ),
+    );
+  }
+
+  void getItems() async {
+    List<Widget> list = <Widget>[];
+    String dbPath = await getDatabasesPath();
+    String path = join(dbPath, "mydata.db");
+
+    Database database = await openDatabase(path, version: 1,
+      onCreate: (Database db, int version) async {
+        await db.execute(
+          "CREATE TABLE IF NOT EXISTS mydata (id INTEGER PRIMARY KEY, name TEXT, mail TEXT, tel TEXT)"
+        );
+      }
+    );
+
+    List<Map> result = await database.rawQuery('SELECT * FROM mydata');
+
+    for(Map item in result) {
+      list.add(
+        ListTile(
+          title: Text(item['name']),
+          subtitle: Text('Email:  ' + item['mail'] + '    Tel:  ' + item['tel']),
+        )
+      );
+    }
+
+    setState(() {
+      _items = list;
     });
   }
 }
